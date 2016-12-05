@@ -26,6 +26,9 @@ def signup(request):
     }
     if form.is_valid():
         instance = form.save()
+        instance.set_password(instance.password)
+        instance.save()
+        return redirect("/")
     return render(request,"login/form.html", context)
 
 
