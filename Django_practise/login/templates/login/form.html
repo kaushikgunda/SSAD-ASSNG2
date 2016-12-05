@@ -1,0 +1,74 @@
+<html>
+<head>
+    <title>
+        {{ title }}
+    </title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+</head>
+<body>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">My First App</a>
+        </div>
+        <ul class="nav navbar-nav navbar-right">
+            {% if not user.is_authenticated %}
+                <li><a href="/register">
+                    <button class="btn btn-inline btn-success">SignUp</button>
+                </a></li>
+                <li><a href="/login">
+                    <button class="btn btn-inline btn-success">Login</button>
+                </a></li>
+            {% else %}
+                <li><a href="/logout">
+                    <button class="btn btn-inline btn-success">Logout</button>
+                </a></li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+</div>
+
+<h2 class="heads"> Welcome </h2>
+<div class="form-group container">
+    <form class="form" role="form" method="POST" action="">{% csrf_token %}
+        <h3> {{ formname }} </h3>
+        {% for field in form %}
+            <fieldset class="form-group">
+                <label class="control-label" for="id_{{ field.name }}">{{ field.label }}</label>
+                <div>
+                    {% if field.name == "password" %}
+                        <input type="password" class="form-control"
+                               name="{{ field.name }}"
+                               id="id_{{ field.name }}"
+                        >
+                    {% else %}
+                        <input type="text" class="form-control"
+                               name="{{ field.name }}"
+                               id="id_{{ field.name }}"
+                        >
+                    {% endif %}
+                </div>
+                {% for error in field.errors %}
+                    <div class="alert alert-danger">
+                        <strong>{{ error|escape }}</strong>
+                    </div>
+                {% endfor %}
+            </fieldset>
+        {% endfor %}
+        <input type="submit" class="btn btn-primary btn-jumbotron btn-block" value={{ formname }}>
+    </form>
+    {% for error in form.non_field_errors %}
+        <div class="alert alert-warning">
+            <strong>{{ error|escape }}</strong>
+        </div>
+    {% endfor %}
+</div>
+{% if data %}
+    <div class="data">
+        <pre>{{ data }}</pre>
+    </div>
+{% endif %}
+</body>
+</html>
