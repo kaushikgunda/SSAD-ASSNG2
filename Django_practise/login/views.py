@@ -1,7 +1,9 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
-from .forms import SignupForm, LoginForm
+from django.shortcuts import render, redirect,HttpResponseRedirect,reverse,render_to_response
+from .forms import SignupForm, LoginForm,UpdateProfileForm
 from django.contrib.auth import authenticate, login, logout
+from django.template import RequestContext
+
 
 def home(request):
     context = {
@@ -52,7 +54,20 @@ def form_login(request):
 
     return render(request, "login/form.html", context)
 
+@login_required
+def update_profile(request):
+    args = {}
 
+    if request.method == 'POST':
+        form = UpdateProfileForm(request.POST,instance=request.user)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/editprofile')
+    else:
+        form = UpdateProfileForm(instance=request.user)
+
+    args['form'] = form
+    return render(request, 'login/update_profile.html', args)
 
 def form_logout(request):
     logout(request)
