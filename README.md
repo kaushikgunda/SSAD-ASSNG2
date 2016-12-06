@@ -1,6 +1,5 @@
 # SSAD-ASSNG2
 THIS PROJECT WAS JUST TO PRACTISE THE DJANGO FRAMEWORK..
-PROJECT : 
 
 Users will first have to register themselves in order to take the survey. Basic details 
 must include name, email, username, password and profile picture. Feel free to 
